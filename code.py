@@ -18,7 +18,11 @@ def c_to_f( value ):
   return value * 1.8 + 32
 
 
+loop_count = 0
+
 while True:
+  loop_count += 1
   print( f"Temperature: {bmp280_sensor.temperature:.2f} degrees C, {c_to_f( bmp280_sensor.temperature ):.2f} degrees F" )
+  print( f"Loop count: {loop_count}" )
   print( "" )
   time.sleep( 15 )
