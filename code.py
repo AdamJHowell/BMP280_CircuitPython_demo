@@ -2,12 +2,16 @@
 #
 # SPDX-License-Identifier: Unlicense
 import time
+
+import adafruit_bmp280
 import board
 import busio
-import adafruit_bmp280
 
-i2c = busio.I2C( board.GP1, board.GP0 )
-bmp280_sensor = adafruit_bmp280.Adafruit_BMP280( i2c )
+scl_pin = board.GP3
+sda_pin = board.GP2
+
+i2c_bus = busio.I2C( scl_pin, sda_pin )
+bmp280_sensor = adafruit_bmp280.Adafruit_BMP280_I2C( i2c_bus, address = 0x76 )
 
 
 def c_to_f( value ):
