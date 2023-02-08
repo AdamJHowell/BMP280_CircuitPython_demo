@@ -13,7 +13,7 @@ sda_pin = board.GP2
 i2c_bus = busio.I2C( scl_pin, sda_pin )
 bmp280_sensor = adafruit_bmp280.Adafruit_BMP280_I2C( i2c_bus, address = 0x76 )
 # Get SLP or Altimeter pressure from https://e6bx.com/weather/KPVU/ or https://e6bx.com/weather/KU42/
-bmp280_sensor.sea_level_pressure = 1023.2
+bmp280_sensor.sea_level_pressure = 1024.3
 
 print()
 print( f"BMP280 demo for the Pico W using CircuitPython" )
@@ -33,12 +33,16 @@ def hpa_to_inhg( hpa ):
 
 
 loop_count = 0
+sensor_interval = 10
+last_sensor_poll = 0
 
 while True:
-  loop_count += 1
-  print( f"Temperature: {bmp280_sensor.temperature:.2f} degrees C, {c_to_f( bmp280_sensor.temperature ):.2f} degrees F" )
-  print( f"Pressure: {bmp280_sensor.pressure:.1f} hPa, {hpa_to_inhg( bmp280_sensor.pressure ):.2f} inHg" )
-  print( f"Altitude = {bmp280_sensor.altitude:.2f} meters, {m_to_f( bmp280_sensor.altitude ):.2f} feet" )
-  print( f"Loop count: {loop_count}" )
-  print( "" )
-  time.sleep( 15 )
+  if (time.time() - last_sensor_poll) > sensor_interval:
+    loop_count += 1
+    print( f"Temperature: {bmp280_sensor.temperature:.2f} degrees C, {c_to_f( bmp280_sensor.temperature ):.2f} degrees F" )
+    print( f"Pressure: {bmp280_sensor.pressure:.1f} hPa, {hpa_to_inhg( bmp280_sensor.pressure ):.2f} inHg" )
+    print( f"Altitude = {bmp280_sensor.altitude:.2f} meters, {m_to_f( bmp280_sensor.altitude ):.2f} feet" )
+    print( f"Loop count: {loop_count}" )
+    print( f"Next sensor poll in {sensor_interval} seconds." )
+    print( "" )
+    last_sensor_poll = time.time()
