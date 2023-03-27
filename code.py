@@ -16,7 +16,7 @@ bmp280_sensor = adafruit_bmp280.Adafruit_BMP280_I2C( i2c_bus, address = 0x76 )
 bmp280_sensor.sea_level_pressure = 1024.3
 
 print()
-print( f"BMP280 demo for the Pico W using CircuitPython" )
+print( "BMP280 demo for the Pico W using CircuitPython" )
 print()
 
 
